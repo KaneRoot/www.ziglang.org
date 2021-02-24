@@ -8,7 +8,7 @@ toc: true
 
 L'effort doit se faire sur la correction de votre application plutôt que sur la connaissance du langage.
 
-La syntaxe de Zig est entièrement spécifiée dans [500 lignes de grammaire PEG](https://ziglang.org/documentation/master/#Grammar).
+La syntaxe de Zig est entièrement spécifiée dans [500 lignes de grammaire PEG (EN)](https://ziglang.org/documentation/master/#Grammar).
 
 Rien n'est caché : ni **flots de contrôle**, ni allocations de mémoire.
 Zig n'a pas de préprocesseur ni de macros.
@@ -31,14 +31,14 @@ Zig promeut la maintenance et la lisibilité du code en imposant tout flot de co
 
 ## Performance ET sécurité
 
-Zig a quatre [modes de compilation](https://ziglang.org/documentation/master/#Build-Mode), et ils peuvent être combinés jusqu'à une granularité aussi fine que le [bloc de code](https://ziglang.org/documentation/master/#setRuntimeSafety).
+Zig a quatre [modes de compilation (EN)](https://ziglang.org/documentation/master/#Build-Mode), et ils peuvent être combinés jusqu'à une granularité aussi fine que le [bloc de code (EN)](https://ziglang.org/documentation/master/#setRuntimeSafety).
 
 | Mode de compilation | [Debug](/documentation/master/#Debug) | [ReleaseSafe](/documentation/master/#ReleaseSafe) | [ReleaseFast](/documentation/master/#ReleaseFast) | [ReleaseSmall](/documentation/master/#ReleaseSmall) |
 |-----------|-------|-------------|-------------|--------------|
 Optimisations : + vitesse d'exécution, - debug, - durée de compilation | | -O3 | -O3| -Os |
 Vérifications à l'exécution : - vitesse d'exécution, - taille, + plantage si comportement indéfini | On | On | | |
 
-Voici ce à quoi ressemble un [dépassement d'entier](https://ziglang.org/documentation/master/#Integer-Overflow) à la compilation, peu importe le mode de compilation :
+Voici ce à quoi ressemble un [dépassement d'entier (EN)](https://ziglang.org/documentation/master/#Integer-Overflow) à la compilation, peu importe le mode de compilation :
 
 {{< zigdoctest "assets/zig-code/features/1-integer-overflow.zig" >}}
 
@@ -46,30 +46,30 @@ Voici ce à quoi ressemble l'exécution avec une compilation avec des vérificat
 
 {{< zigdoctest "assets/zig-code/features/2-integer-overflow-runtime.zig" >}}
 
-Ces [traces d'appels fonctionnent sur toutes les cibles](https://ziglang.org/#Stack-traces-on-all-targets), et également en [« freestanding » (binaire autonome, sans système d'exploitation)](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html).
+Ces [traces d'appels fonctionnent sur toutes les cibles](#traces-de-pile-dexécution-sur-toutes-les-cibles), et également en [« freestanding » (binaire autonome, sans système d'exploitation) (EN)](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html).
 
 Avec Zig il est possible de s'appuyer sur une compilation avec vérifications à l'exécution, tout en désactivant les vérifications seulement où les performances sont trop impactées.
 Par exemple, l'exemple précédent pourrait être modifié comme cela :
 
 {{< zigdoctest "assets/zig-code/features/3-undefined-behavior.zig" >}}
 
-Zig détecte les [comportements indéfinis](https://ziglang.org/documentation/master/#Undefined-Behavior) à la compilation pour à la fois la prévention d'erreurs et l'amélioration des performances.
+Zig détecte les [comportements indéfinis (EN)](https://ziglang.org/documentation/master/#Undefined-Behavior) à la compilation pour à la fois la prévention d'erreurs et l'amélioration des performances.
 
 En parlant de performances, Zig est plus rapide que le C.
 
 - L'implémentation de référence utilise LLVM comme un backend pour avoir l'état de l'art des optimisations.
 - Ce que les autres projets appellent « Link Time Optimization », Zig l'a automatiquement.
-- Pour les cibles natives, les fonctionnalités CPU avancées sont activées (-march=native) grâce à la [prise en charge de premier plan de la cross-compilation](https://ziglang.org/#Cross-compiling-is-a-first-class-use-case).
+- Pour les cibles natives, les fonctionnalités CPU avancées sont activées (-march=native) grâce à la [prise en charge de premier plan de la cross-compilation](#la-cross-compilation-est-un-usage-de-première-importance).
 - Les comportements indéfinis sont soigneusement choisis.
 Par exemple, en Zig les entiers signés et non signés ont un comportement indéfini lors d'un dépassement mémoire, contrairement à C où seul le dépassement d'entiers signés est indéfini.
 Cela [facilite les optimisations qui ne sont pas disponibles en C](https://godbolt.org/z/n_nLEU).
-- Zig expose directement le [type « vecteur SIMD ](https://ziglang.org/documentation/master/#Vectors), permettant d'écrire facilement du code vectorisé portable.
+- Zig expose directement le [type « vecteur SIMD »](https://ziglang.org/documentation/master/#Vectors), permettant d'écrire facilement du code vectorisé portable.
 
 Important à noter, Zig n'est pas à considérer comme un langage *sécurisé*.
 Pour ceux qui sont intéressés par suivre les histoires de sécurité dans Zig, abonnez-vous à ces fils de discussion :
 
-- [enumerate all kinds of undefined behavior, even that which cannot be safety-checked](https://github.com/ziglang/zig/issues/1966)
-- [make Debug and ReleaseSafe modes fully safe](https://github.com/ziglang/zig/issues/2301)
+- [Énumérer tous les types de comportements indéfinis, même ceux qui ne peuvent être vérifiés (EN)](https://github.com/ziglang/zig/issues/1966)
+- [Rendre les modes de compilation *Debug* et *ReleaseSafe* entièrement sécurisés (EN)](https://github.com/ziglang/zig/issues/2301)
 
 ## Zig est en compétition avec le C, il n'en dépend pas
 
@@ -99,19 +99,19 @@ hello.exe: PE32+ executable (console) x86-64, for MS Windows
 ## Déclarations de premier niveau indépendantes de l'ordre
 
 Les déclarations de premier niveau, comme les variables globales, sont indépendantes de l'ordre dans lequelle elles sont écrites et leur analyse est paresseuse.
-Les valeurs d'initialisation des variables globales sont [évaluées à la compilation](https://ziglang.org/#Compile-time-reflection-and-compile-time-code-execution).
+Les valeurs d'initialisation des variables globales sont [évaluées à la compilation](#réflexivité-et-exécution-de-code-à-la-compilation).
 
 {{< zigdoctest "assets/zig-code/features/5-global-variables.zig" >}}
 
 ## Type optionnel plutôt que des pointeurs null
 
-Dans d'autres langages de programmation, les références nulles sont sources d'erreurs à l'exécution, et sont même soupçonnées être [la pire erreur en informatique](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/).
+Dans d'autres langages de programmation, les références nulles sont sources d'erreurs à l'exécution, et sont même soupçonnées être [la pire erreur en informatique (EN)](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/).
 
 Les pointeurs en Zig ne peuvent pas être null :
 
 {{< zigdoctest "assets/zig-code/features/6-null-to-ptr.zig" >}}
 
-Cependant, tout type peut devenir un [type optionnel](https://ziglang.org/documentation/master/#Optionals) en le préfixant par `?:`
+Cependant, tout type peut devenir un [type optionnel (EN)](https://ziglang.org/documentation/master/#Optionals) en le préfixant par `?:`
 
 {{< zigdoctest "assets/zig-code/features/7-optional-syntax.zig" >}}
 
@@ -123,7 +123,7 @@ Une autre option est d'utiliser un `if` :
 
 {{< zigdoctest "assets/zig-code/features/9-optional-if.zig" >}}
 
-Cette syntaxe fonctionne également avec [while](https://ziglang.org/documentation/master/#while):
+Cette syntaxe fonctionne également avec [while (EN)](https://ziglang.org/documentation/master/#while):
 
 {{< zigdoctest "assets/zig-code/features/10-optional-while.zig" >}}
 
@@ -146,9 +146,9 @@ Cela est vrai également pour la bibliothèque standard de Zig.
 Chaque fonction nécessitant d'allouer de la mémoire accepte un *allocateur* en paramètre.
 Par conséquent, la bibliothèque standard de Zig peut être utilisée même pour un binaire « freestanding » (application autonome, sans système d'exploitation).
 
-En plus d'apporter un [point de vue nouveau sur la gestion d'erreurs](https://ziglang.org/#A-fresh-take-on-error-handling), Zig fournit [defer](https://ziglang.org/documentation/master/#defer) et [errdefer](https://ziglang.org/documentation/master/#errdefer) pour rendre la gestion de *toutes les ressources* plus simple et facilement vérifiable, pas seulement la mémoire.
+En plus d'apporter un [point de vue nouveau sur la gestion d'erreurs](#une-nouvelle-manière-de-gérer-les-erreurs), Zig fournit [defer (EN)](https://ziglang.org/documentation/master/#defer) et [errdefer (EN)](https://ziglang.org/documentation/master/#errdefer) pour rendre la gestion de *toutes les ressources* plus simple et facilement vérifiable, pas seulement la mémoire.
 
-Pour un exemple de `defer`, voir [l'intégration des bibliothèques C sans FFI/bindings](https://ziglang.org/#Integration-with-C-libraries-without-FFIbindings).
+Pour un exemple de `defer`, voir [l'intégration des bibliothèques C sans FFI/bindings](#intégration-avec-les-bibliothèques-c-sans-ffibindings).
 Voici un exemple de code utilisant `errdefer` :
 
 {{< zigdoctest "assets/zig-code/features/11-errdefer.zig" >}}
@@ -160,37 +160,37 @@ Les erreurs sont des valeurs, et ne peuvent pas être ignorées :
 
 {{< zigdoctest "assets/zig-code/features/12-errors-as-values.zig" >}}
 
-Les erreurs peuvent être gérées avec [catch](https://ziglang.org/documentation/master/#catch):
+Les erreurs peuvent être gérées avec [catch (EN)](https://ziglang.org/documentation/master/#catch):
 
 {{< zigdoctest "assets/zig-code/features/13-errors-catch.zig" >}}
 
-Le mot clé [try](https://ziglang.org/documentation/master/#try) est un raccourci pour `catch |err| return err`:
+Le mot clé [try (EN)](https://ziglang.org/documentation/master/#try) est un raccourci pour `catch |err| return err`:
 
 {{< zigdoctest "assets/zig-code/features/14-errors-try.zig" >}}
 
-À noter que ceci est une [trace de retour d'erreur](https://ziglang.org/documentation/master/#Error-Return-Traces), pas une [trace d'une pile d'exécution](https://ziglang.org/#Stack-traces-on-all-targets).
+À noter que ceci est une [trace de retour d'erreur (EN)](https://ziglang.org/documentation/master/#Error-Return-Traces), pas une [trace d'une pile d'exécution](#traces-de-pile-dexécution-sur-toutes-les-cibles).
 Le code n'a pas à payer le coût du déroulement d'une pile d'exécution pour arriver à cette trace.
 
-Le mot clé [switch](https://ziglang.org/documentation/master/#switch) utilisé sur une erreur assure que toutes les erreurs possibles sont gérées :
+Le mot clé [switch (EN)](https://ziglang.org/documentation/master/#switch) utilisé sur une erreur assure que toutes les erreurs possibles sont gérées :
 
 {{< zigdoctest "assets/zig-code/features/15-errors-switch.zig" >}}
 
-Le mot clé [unreachable](https://ziglang.org/documentation/master/#unreachable) est utilisé pour affirmer qu'aucune erreur ne peut survenir :
+Le mot clé [unreachable (EN)](https://ziglang.org/documentation/master/#unreachable) est utilisé pour affirmer qu'aucune erreur ne peut survenir :
 
 {{< zigdoctest "assets/zig-code/features/16-unreachable.zig" >}}
 
-Cela implique un [comportement indéfini](https://ziglang.org/#Performance-and-Safety-Choose-Two) dans les modes de compilation non sûrs, donc assurez-vous de l'utiliser uniquement quand le succès est garanti.
+Cela implique un [comportement indéfini](#performance-et-sécurité) dans les modes de compilation non sûrs, donc assurez-vous de l'utiliser uniquement quand le succès est garanti.
 
 ### Traces de pile d'exécution sur toutes les cibles
 
-Les traces de piles d'exécution and les [traces de retour d'erreurs](https://ziglang.org/documentation/master/#Error-Return-Traces) montrées sur cette page fonctionnent sur toutes les cibles ayant une [prise en charge Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) et certaines cibles de [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2).
-Y compris [freestanding](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html) !
+Les traces de piles d'exécution and les [traces de retour d'erreurs (EN)](https://ziglang.org/documentation/master/#Error-Return-Traces) montrées sur cette page fonctionnent sur toutes les cibles ayant une [prise en charge de niveau 1](#prise-en-charge-niveau-1) et certaines cibles de [niveau 2](#prise-en-charge-niveau-2).
+Y compris [freestanding (EN)](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html) !
 
 De plus, la bibliothèque standard a la possibilité de capturer une trace d'exécution et de l'afficher plus tard :
 
 {{< zigdoctest "assets/zig-code/features/17-stack-traces.zig" >}}
 
-Vous pouvez voir cette technique utilisée dans le projet actuel d'[allocateur générique](https://github.com/andrewrk/zig-general-purpose-allocator/#current-status).
+Vous pouvez voir cette technique utilisée dans le projet actuel d'[allocateur générique (EN)](https://github.com/andrewrk/zig-general-purpose-allocator/#current-status).
 
 ## Structures de données et fonctions génériques
 
@@ -204,25 +204,25 @@ Une structure de données générique est simplement une fonction qui retourne u
 
 ## Réflexivité et exécution de code à la compilation
 
-La fonction intégrée [@typeInfo](https://ziglang.org/documentation/master/#typeInfo) fournit de la réflexivité :
+La fonction intégrée [@typeInfo (EN)](https://ziglang.org/documentation/master/#typeInfo) fournit de la réflexivité :
 
 {{< zigdoctest "assets/zig-code/features/20-reflection.zig" >}}
 
 La bibliothèque standard de Zig utilise cette technique pour implémenter l'affichage formaté.
-Malgré la volonté de faire de Zig un langage [simple](https://ziglang.org/#Small-simple-language), l'affichage formaté est entièrement implémentée en Zig.
+Malgré la volonté de faire de Zig un langage [simple](#un-langage-simple), l'affichage formaté est entièrement implémentée en Zig.
 Pendant ce temps, en C, les erreurs de printf à la compilation sont codées en dur dans le compilateur.
 De façon similaire, en Rust, les macros de formatage sont codées en dur dans le compilateur.
 
 Zig peut également évaluer les fonctions et les blocs de code à la compilation.
 Dans certains contextes, comme l'initialisation des variables globales, l'expression est implicitement évaluée à la compilation.
-Autrement, il est également possible d'évaluer explicitement le code à la compilation en utilisant le mot clé [comptime](https://ziglang.org/documentation/master/#comptime).
+Autrement, il est également possible d'évaluer explicitement le code à la compilation en utilisant le mot clé [comptime (EN)](https://ziglang.org/documentation/master/#comptime).
 Cela est particulièrement utile une fois combiné avec des assertions :
 
 {{< zigdoctest "assets/zig-code/features/21-comptime.zig" >}}
 
 ## Intégration avec les bibliothèques C sans FFI/bindings
 
-[@cImport](https://ziglang.org/documentation/master/#cImport) importe directement les types, variables, fonctions et les macros simples en Zig.
+[@cImport (EN)](https://ziglang.org/documentation/master/#cImport) importe directement les types, variables, fonctions et les macros simples en Zig.
 Ce mot clé peut même traduire les fonctions *inline* du C à Zig.
 
 Voici un exemple de diffusion d'une onde sinusoïdale via la bibliothèque [libsoundio](http://libsound.io/) :
@@ -276,10 +276,10 @@ user	0m0.018s
 sys	0m0.009s
 ```
 
-Ceci est rendu possible grâce au [cache de compilation](https://ziglang.org/download/0.4.0/release-notes.html#Build-Artifact-Caching).
+Ceci est rendu possible grâce au [cache de compilation (EN)](https://ziglang.org/download/0.4.0/release-notes.html#Build-Artifact-Caching).
 Zig analyse les fichiers `.d` (générés grâce à Clang) et utilise un système de cache robuste pour recompiler seulement le nécessaire.
 
-Zig peut compiler du code C, mais il y a une vraie bonne raison de l'utiliser comme tel : [Zig est livré avec la libc](https://ziglang.org/#Zig-ships-with-libc).
+Zig peut compiler du code C, mais il y a une vraie bonne raison de l'utiliser comme tel : [Zig est livré avec la libc](#zig-fournit-la-libc).
 
 ### Export de fonctions, variables, et de types pour du code C
 
@@ -299,7 +299,7 @@ Pour créer une bibliothèque partagée :
 $ zig build-lib mathtest.zig -dynamic
 ```
 
-Voici un exemple avec le [système de construction de Zig](https://ziglang.org/#Zig-Build-System) :
+Voici un exemple avec le [système de construction de Zig](#système-de-construction-de-zig) :
 
 <u>test.c</u>
 ```c
@@ -323,7 +323,7 @@ $ zig build test
 
 ## La cross-compilation est un usage de première importance
 
-Zig peut compiler pour n'importe-quelle cible du [tableau de support](https://ziglang.org/#Support-Table) avec un niveau [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) ou mieux.
+Zig peut compiler pour n'importe-quelle cible du [tableau prise en charge](#prise-en-charge-des-systèmes) avec un [niveau 3](#prise-en-charge-niveau-3) ou mieux.
 Pas besoin d'installer une chaîne de compilation.
 Voici un simple Hello World :
 
@@ -342,7 +342,7 @@ $ file hello
 hello: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, with debug_info, not stripped
 ```
 
-Cela fonctionne sur toutes les cibles de [niveau 3](https://ziglang.org/#prise-en-charge-niveau-3) ou plus, pour n'importe-quelle cible de [niveau 3](https://ziglang.org/#prise-en-charge-niveau-3) ou plus.
+Cela fonctionne sur toutes les cibles de [niveau 3](#prise-en-charge-niveau-3) ou plus, pour n'importe-quelle cible de [niveau 3](#prise-en-charge-niveau-3) ou plus.
 
 ### Zig fournit la libc
 
@@ -401,7 +401,7 @@ Vous pouvez trouver les cibles disponibles avec `zig targets` :
 
 Cela signifie que `--library c` pour ces cibles *ne dépend d'aucun fichier du système* !
 
-Revoyons l'[exemple de Hello World en C](https://ziglang.org/#Zig-is-also-a-C-compiler) :
+Revoyons l'[exemple de Hello World en C](#zig-est-également-un-compilateur-c) :
 ```
 $ zig build-exe --c-source hello.c --library c
 $ ./hello
@@ -416,7 +416,7 @@ $ ldd ./hello
 	/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007fc4b6672000)
 ```
 
-[glibc](https://www.gnu.org/software/libc/) ne prend pas en charge la compilation statique, mais [musl](https://www.musl-libc.org/) oui :
+[glibc (EN)](https://www.gnu.org/software/libc/) ne prend pas en charge la compilation statique, mais [musl (EN)](https://www.musl-libc.org/) oui :
 ```
 $ zig build-exe --c-source hello.c --library c -target x86_64-linux-musl
 $ ./hello
@@ -426,7 +426,7 @@ $ ldd hello
 ```
 
 Dans cet exemple, Zig compile la libc musl depuis les sources puis l'utilise pour notre application.
-Les fichiers de construction de cette bibliothèque restent disponibles pour de futures compilations (elle n'aura pas à être recompilée) grâce au [système de cache](https://ziglang.org/download/0.4.0/release-notes.html#Build-Artifact-Caching).
+Les fichiers de construction de cette bibliothèque restent disponibles pour de futures compilations (elle n'aura pas à être recompilée) grâce au [système de cache (EN)](https://ziglang.org/download/0.4.0/release-notes.html#Build-Artifact-Caching).
 
 Cette fonctionnalité est disponible pour toutes les plateformes.
 Les utilisateurs de Windows et MacOS peuvent compiler du code C et Zig, les lier à la libc, pour toutes les cibles listées au-dessus.
@@ -444,14 +444,14 @@ Par exemple, la taille totale des en-têtes de libc que Zig fournit est de 22 M
 Pendant ce temps, seulement les en-têtes pour musl et linux pour `x86_64` font déjà 8 MiB, et glic fait déjà 3.1 MiB à lui seul (sans les en-têtes de linux).
 Pourtant, Zig est actuellement fourni avec 40 libc.
 Avec un paquetage naïf cela voudrait dire 444 MiB.
-Cependant, grâce à un [outil de gestion d'en-têtes](https://github.com/ziglang/zig/blob/0.4.0/libc/process_headers.zig), et à un [travail manuel minutieux](https://github.com/ziglang/zig/wiki/Updating-libc), les archives de Zig restent autour de 30 MiB, malgré le support de toutes ces cibles, en plus des bibliothèques `compiler-rt`, `libunwind` et `libcxx`, et malgré le fait d'être un compilateur C compatible Clang.
+Cependant, grâce à un [outil de gestion d'en-têtes (EN)](https://github.com/ziglang/zig/blob/0.4.0/libc/process_headers.zig), et à un [travail manuel minutieux (EN)](https://github.com/ziglang/zig/wiki/Updating-libc), les archives de Zig restent autour de 30 MiB, malgré le support de toutes ces cibles, en plus des bibliothèques `compiler-rt`, `libunwind` et `libcxx`, et malgré le fait d'être un compilateur C compatible Clang.
 En comparaison, clang 8.0.0 seul pour Windows pèse 132 MiB.
 
-À noter que seul les cibles [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) ont été testées en profondeur.
-Il est prévu d'[ajouter d'autres libc](https://github.com/ziglang/zig/issues/514) (en incluant Windows), et d'ajouter des [tests de couverture pour compiler vers toutes les architectures](https://github.com/ziglang/zig/issues/2058).
+À noter que seules les cibles [de niveau 1](#prise-en-charge-niveau-1) ont été testées en détail.
+Il est prévu d'[ajouter d'autres libc (EN)](https://github.com/ziglang/zig/issues/514) (en incluant Windows), et d'ajouter des [tests de couverture pour compiler vers toutes les architectures (EN)](https://github.com/ziglang/zig/issues/2058).
 
-Il est prévu d'avoir un [gestionnaire de paquets Zig](https://github.com/ziglang/zig/issues/943), mais il n'est pas encore là.
-Cela permettra de créer des paquets pour des bibliothèques C et rendra le [système de construction de Zig](https://ziglang.org/#Zig-Build-System) attractif à la fois pour les développeurs C et Zig.
+Il est prévu d'avoir un [gestionnaire de paquets Zig (EN)](https://github.com/ziglang/zig/issues/943), mais il n'est pas encore là.
+Cela permettra de créer des paquets pour des bibliothèques C et rendra le [système de construction de Zig](#système-de-construction-de-zig) attractif à la fois pour les développeurs C et Zig.
 
 ## Système de construction de Zig
 
@@ -522,67 +522,65 @@ Voici quelques exemples de scripts de construction :
 
 ## Concurrence avec les fonctions Async
 
-Zig 0.5.0 [a introduit les fonctions async](https://ziglang.org/download/0.5.0/release-notes.html#Async-Functions).
+Zig 0.5.0 [a introduit les fonctions async (EN)](https://ziglang.org/download/0.5.0/release-notes.html#Async-Functions).
 Cette fonctionnalité n'a pas de dépendance au système d'exploitation hôte ou même à l'allocation de mémoire dans le tas.
 Cela veut dire que les fonctions async sont disponibles pour la cible « freestanding » (sans système d'exploitation).
 
 Zig déduit si une fonction est async, et permet `async`/`await` sur des fonctions non async, ce qui veut dire que **les bibliothèques Zig sont agnostiques de la notion d'appel bloquant vs entrées-sorties asynchrones**.
-[Zig évite la coloration des fonctions](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/).
+[Zig évite la coloration des fonctions (EN)](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/).
 
 
 La bibliothèque standard Zig implémente une boucle d'événements qui multiplexe les fonctions asynchrones dans un pool de fils d'exécution pour une concurrence de type M:N.
 La sécurité de multiples fils d'exécution et la détection de *race condition* sont des domaines de recherche actifs.
 
-## Une large variété de cibles sont disponibles
+## Une large variété de cibles est disponible
 
 Zig a un système de « niveaux de prise en charge » (*support tier*) pour communiquer autour des différentes cibles.
 À noter que la barre est haute pour atteindre le [niveau 1](#prise-en-charge-niveau-1) - la prise en charge de [niveau 2](#prise-en-charge-niveau-2) est déjà intéressante.
 
 ### Prise en charge des systèmes
 
-Note : reprise du tableau original, *Tier* signifie *Niveau*.
-
 | | free standing | Linux 3.16+ | macOS 10.13+ | Windows 8.1+ | FreeBSD 12.0+ | NetBSD 8.0+ | DragonFly​BSD 5.8+ | UEFI |
 |-|---------------|-------------|--------------|--------------|---------------|-------------|-------------------|------|
-| x86_64 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) |
-| arm64 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) |
-| arm32 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) |
-| mips32 LE | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| i386 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) |
-| riscv64 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) | [Tier 2](https://ziglang.org/#prise-en-charge-niveau-2) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) |
-| bpf | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| hexagon | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| mips32 BE | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| mips64 | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| amdgcn | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| sparc | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| s390x | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| lanai | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| powerpc32 | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| powerpc64 | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3) | N/A | N/A |
-| avr | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| riscv32 | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) |
-| xcore | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| nvptx | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| msp430 | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| r600 | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| arc | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| tce | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| le | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| amdil | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| hsail | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| spir | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| kalimba | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| shave | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
-| renderscript | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) | N/A | N/A |
+| x86_64 | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 2](#prise-en-charge-niveau-2) |
+| arm64 | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | [Niveau 3](#prise-en-charge-niveau-3) |
+| arm32 | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | [Niveau 3](#prise-en-charge-niveau-3) |
+| mips32 LE | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| i386 | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 2](#prise-en-charge-niveau-2) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | [Niveau 2](#prise-en-charge-niveau-2) |
+| riscv64 | [Niveau 1](#prise-en-charge-niveau-1) | [Niveau 2](#prise-en-charge-niveau-2) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | [Niveau 3](#prise-en-charge-niveau-3) |
+| bpf | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| hexagon | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| mips32 BE | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| mips64 | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| amdgcn | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| sparc | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| s390x | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| lanai | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| powerpc32 | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| powerpc64 | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | [Niveau 3](#prise-en-charge-niveau-3) | [Niveau 3](#prise-en-charge-niveau-3) | N/A | N/A |
+| avr | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| riscv32 | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | [Niveau 4](#prise-en-charge-niveau-4) |
+| xcore | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| nvptx | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| msp430 | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| r600 | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| arc | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| tce | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| le | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| amdil | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| hsail | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| spir | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| kalimba | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| shave | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
+| renderscript | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A | [Niveau 4](#prise-en-charge-niveau-4) | [Niveau 4](#prise-en-charge-niveau-4) | N/A | N/A |
 
 
 ### Prise en charge de WebAssembly
 
 |        | free standing | emscripten | WASI   |
 |--------|---------------|------------|--------|
-| wasm32 | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1)        | [Tier 3](https://ziglang.org/#prise-en-charge-niveau-3)     | [Tier 1](https://ziglang.org/#prise-en-charge-niveau-1) |
-| wasm64 | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4)        | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4)     | [Tier 4](https://ziglang.org/#prise-en-charge-niveau-4) |
+| wasm32 | [Niveau 1](#prise-en-charge-niveau-1)        | [Niveau 3](#prise-en-charge-niveau-3)     | [Niveau 1](#prise-en-charge-niveau-1) |
+| wasm64 | [Niveau 4](#prise-en-charge-niveau-4)        | [Niveau 4](#prise-en-charge-niveau-4)     | [Niveau 4](#prise-en-charge-niveau-4) |
 
 
 ### Niveaux de prise en charge
@@ -590,8 +588,8 @@ Note : reprise du tableau original, *Tier* signifie *Niveau*.
 #### Prise en charge niveau 1
 - Zig peut non seulement générer du code pour ces cibles, mais les abstractions de la bibliothèque standard ont des implémentations pour ces cibles.
 - Le serveur d'intégration continue teste automatiquement ces cibles sur chaque commit de la branche master, et met à jour [la page de téléchargement](/fr/download) avec des liens vers des binaires pré-compilés.
-- Ces cibles ont des informations de debug et par conséquent produisent des [traces de piles d'exécution](https://ziglang.org/#Stack-traces-on-all-targets) lors des assertions fausses.
-- [La libc est disponible pour ces cibles même lors d'une cross-compilation](https://ziglang.org/#Zig-ships-with-libc).
+- Ces cibles ont des informations de debug et par conséquent produisent des [traces de piles d'exécution](#traces-de-pile-d'exécution-sur-toutes-les-cibles) lors des assertions fausses.
+- [La libc est disponible pour ces cibles même lors d'une cross-compilation](#zig-fournit-la-libc).
 - Tous les tests de comportement et de la bibliothèque standard passent pour cette cible.
 Toutes les fonctionnalité du langage fonctionnent correctement.
 
@@ -599,7 +597,7 @@ Toutes les fonctionnalité du langage fonctionnent correctement.
 - La bibliothèque standard prend en charge cette cible, mais il est possible que certaines API ne soient pas complètes (erreur *Unsupported OS* à la compilation).
 Il est cependant possible de lier l'application à une libc pour compléter ce qui manque dans la bibliothèque standard.
 - Ces cibles sont connues pour fonctionner, mais ne sont pas entièrement automatisées, donc il faut s'attendre à des régressions occasionnelles.
-- Certains tests peuvent être désactivés pour ces cibles en attendant une [prise en charge de niveau 1](https://ziglang.org/#prise-en-charge-niveau-1).
+- Certains tests peuvent être désactivés pour ces cibles en attendant une [prise en charge de niveau 1](#prise-en-charge-niveau-1).
 
 #### Prise en charge niveau 3
 
@@ -617,18 +615,18 @@ Il est cependant possible de lier l'application à une libc pour compléter ce q
 - La prise en charge de ces cibles est entièrement expérimentale.
 - LLVM peut avoir ces cibles comme *expérimentales*, ce qui veut dire qu'il est nécessaire d'utiliser les binaires fournit par Zig pour avoir accès à ces cibles, ou compiler soi-même LLVM avec des options spécifiques.
 `zig targets` affichera ces cibles si elles sont disponibles.
-- Ces cibles sont considérées abandonnées par l'organisme officiellement en charge, comme [macosx/i386](https://support.apple.com/en-us/HT208436), et dans ce cas ces cibles seront toujours bloquées au niveau 4 de prise en charge.
+- Ces cibles sont considérées abandonnées par l'organisme officiellement en charge, comme [macosx/i386 (EN)](https://support.apple.com/en-us/HT208436), et dans ce cas ces cibles seront toujours bloquées au niveau 4 de prise en charge.
 - Ces cibles ne prennent en charge que la création d'assembleur via `--emit` et ne peuvent pas fournir de fichiers objet.
 
 ## Agréable pour les mainteneurs de paquets
 
 Le compilateur Zig de référence n'est pas complètement autonome pour le moment.
-Mais peu importe, il ne reste [exactement que 3 étapes](https://github.com/ziglang/zig/issues/853) pour avoir un système autonome pouvant compiler pour n'importe-quelle cible et se débarasser de la dépendence à un compilateur C++.
-Comme Maya Rashish a pu dire, [porter Zig sur d'autres plateformes est fun et rapide](http://coypu.sdf.org/porting-zig.html).
+Mais peu importe, il ne reste [exactement que 3 étapes (EN)](https://github.com/ziglang/zig/issues/853) pour avoir un système autonome pouvant compiler pour n'importe-quelle cible et se débarasser de la dépendence à un compilateur C++.
+Pour citer Maya Rashish : [porter Zig sur d'autres plateformes est fun et rapide (EN)](http://coypu.sdf.org/porting-zig.html).
 
-Les modes de compilation [sans debug](https://ziglang.org/documentation/master/#Build-Mode) sont reproductibles, déterministes.
+Les modes de compilation [sans debug (EN)](/documentation/master/#Build-Mode) sont reproductibles, déterministes.
 
-Il y a une [version JSON de la page de téléchargements](https://ziglang.org/download/index.json).
+Il y a une [version JSON de la page de téléchargements](/download/index.json).
 
 Plusieurs membres de l'équipe derrière Zig ont de l'expérience dans le maintien de paquets.
 
