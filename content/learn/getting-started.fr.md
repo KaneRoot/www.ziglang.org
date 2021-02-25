@@ -12,21 +12,22 @@ Pour en savoir plus, allez voir la section [Compilation des sources](#building-f
 {{% /div %}}
 
 
-## Version taguée ou nightly build ?
+## Version numérotée ou nightly build ?
 Zig n'a pas encore atteint la version 1.0 et le cycle de sorties est lié aux nouvelles versions de LLVM, qui sortent tous les ~6 mois.
 En pratique, **les versions de Zig sont éloignées et vont l'être de plus en plus**.
 
-Il est valable d'utiliser Zig dans une version taguée, mais si vous aimez Zig et que vous voulez aller plus loin, **nous vous encourageons à passer à la version nightly**, principalement parce que cela sera plsu facile pour vous d'être aidé : la plupart de la communauté et des sites comme [ziglearn.org](https://ziglearn.org) suivent la branche master pour les raisons évoquées plus tôt.
+Il est valable d'utiliser Zig dans une version numérotée, mais si vous aimez Zig et que vous voulez aller plus loin, **nous vous encourageons à passer à la version nightly**.
+Cela sera plus facile pour vous d'être aidé : la plupart de la communauté et des sites comme [ziglearn.org](https://ziglearn.org) suivent la branche master pour les raisons évoquées plus tôt.
 
-La bonne nouvelle est qu'il est très facile de passer d'une version de Zig à une autre, ou même d'avoir plusieurs versions installées sur le système en même temps : les versions de Zig sont des archives auto-suffisantes qui peuvent être placées n'importe-où sur le système.
+La bonne nouvelle est qu'il est très facile de passer d'une version de Zig à une autre, ou même d'avoir plusieurs versions installées sur le système en même temps : les versions de Zig sont des archives qui se suffisent à elles-mêmes et qui peuvent être placées n'importe où sur le système.
 
 
 ## Installer Zig
 ### Téléchargement direct
-Ceci est la manière la plus simple d'obtenir Zig : téléchargez l'archive Zig pour votre plateforme sur [la page de téléchargements](/download) et mettez son contenu dans votre `PATH` pour pouvoir appeler `zig` depuis n'importe-où.
+Ceci est la manière la plus simple d'obtenir Zig : téléchargez l'archive Zig pour votre plateforme sur [la page de téléchargements](/download) et mettez son contenu dans votre `PATH` pour pouvoir appeler `zig` depuis n'importe où.
 
 #### Configurer le PATH sur Windows
-Pour configurer le chemin (path) sur Windows, exécutez **une** des instructions de code suivantes dans une instance de Powershell.
+Pour configurer le chemin (*PATH*) sur Windows, exécutez **une** des instructions de code suivantes dans une instance de Powershell.
 Choisissez si vous souhaitez appliquer ce changement à l'échelle du système (nécessite une instance de Powershell avec des privilèges administrateur) ou juste pour votre utilisateur, et **assurez-vous de changer le code pour pointer à l'endroit où se situe votre copie de Zig**.
 Le `;` avant `C:` n'est pas une typo.
 
@@ -72,7 +73,7 @@ choco install zig
 **Homebrew**
 NOTE: Homebrew n'a pas encore de bouteille pour Apple Silicon.Si vous avez un Mac M1, vous devez compiler Zig depuis les sources.
 
-Dernière version taguée :
+Dernière version numérotée :
 ```
 brew install zig
 ```

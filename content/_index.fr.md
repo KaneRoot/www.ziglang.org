@@ -1,9 +1,9 @@
 ---
-title: Home
-mobile_menu_title: "Home"
+title: Accueil
+mobile_menu_title: "Accueil"
 ---
-{{< slogan get_started="GET STARTED" docs="Documentation" notes="Changes" lang="en" >}}
-Zig est un langage de programmation générique et une chaîne de compilation ayant pour objectifs la **robustesse**, l'**optimalité** et la **réutilisabilité**.
+{{< slogan get_started="DÉBUTER" docs="Documentation" notes="Historique" lang="fr" >}}
+Zig est un langage de programmation générique et une chaîne de compilation ayant pour objectifs la **robustesse**, l'**optimalité** et la **réutilisation du code**.
 {{< /slogan >}}
 
 {{< flexrow class="container" style="padding: 20px 0; justify-content: space-between;" >}}
@@ -17,10 +17,10 @@ L'effort doit se faire sur la correction de l'application et non votre connaissa
 - Pas de pré-processeur ou de macros.
 
 # ⚡ Comptime
-Une nouvelle approche de la metaprogrammation basée sur une exécution à la compilation et une évaluation paresseuse.
+Une nouvelle approche de la métaprogrammation basée sur une exécution à la compilation et une évaluation paresseuse.
 
-- Appelez n'importe-quelle fonction à la compilation.
-- Manipulez les types comme des valeurs sans surcoût à l'exécution.
+- Appelez n'importe quelle fonction à la compilation.
+- Manipulez les types comme des valeurs sans coût à l'exécution.
 - Comptime émule l'architecture cible.
 
 # ⚡ Performance ET sécurité
@@ -33,7 +33,7 @@ Une nouvelle approche de la metaprogrammation basée sur une exécution à la co
 {{% flexrow style="justify-content:center;" %}}
 {{% div %}}
 <h1>
-    <a href="learn/overview/" class="button" style="display: inline;">Dans le détail</a>
+    <a href="learn/overview/" class="button" style="display: inline;">Vue d'ensemble</a>
 </h1>
 {{% /div %}}
 {{% div  style="margin-left: 5px;" %}}
@@ -91,7 +91,7 @@ Les contributeurs doivent suivre le [code de conduite de Zig](https://github.com
 {{% div class="container" style="display:flex;flex-direction:column;justify-content:center;text-align:center; padding: 20px 0;" title="Zig Software Foundation" %}}
 ## La ZSF est une organisation à but non lucratif 501(c)(3).
 
-La fondation Zig (Zig Software Foundation) est une organisation à but non lucratif fondée en 2020 par Andrew Kelley, le créateur de Zig, avec pour objectif de prendre en charge le développement du langage.
+La fondation Zig (*Zig Software Foundation*) est une organisation à but non lucratif fondée en 2020 par Andrew Kelley, le créateur de Zig, avec pour objectif de prendre en charge le développement du langage.
 La ZSF est actuellement en capacité de fournir du travail payé à un taux compétitif à un petit nombre de contributeurs.
 Nous espérons à l'avenir pouvoir étendre cette offre à d'autres développeurs.
 
@@ -117,8 +117,8 @@ Les entreprises suivantes fournissent un support financier direct à la fondatio
  </a>
 {{% /sponsor-logos %}}
 
-# Sponsors GitHub
-Merci aux personnes qui [sponsorisent Zig](zsf/), le projet est davantage redevable à la communauté open source qu'aux entreprises.
+# Parrainages GitHub
+Merci aux personnes qui [parrainent Zig](zsf/), le projet est davantage redevable à la communauté open source qu'aux entreprises.
 En particulier, ces personnes formidables sponsorisent Zig à hauteur de 200 $/mois ou plus :
 
 - [Karrick McDermott](https://github.com/karrick)
