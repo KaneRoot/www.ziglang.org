@@ -10,14 +10,14 @@ En utilisant `std.GeneralPurposeAllocator` vous pouvez trouver les libérations 
 {{< zigdoctest "assets/zig-code/samples/1-memory-leak.zig" >}}
 
 
-## interoperabilité avec le C
+## interopérabilité avec le C
 Un exemple d'import d'en-tête C et de compilation avec à la fois la libc et la raylib.
 
 {{< zigdoctest "assets/zig-code/samples/2-c-interop.zig" >}}
 
 
 ## Zigg Zagg
-Zig est *optimisé* pour les entretiens d'embauche demandant de comprendre du code (heu, ou peut-être pas vraiment).
+Zig est *optimisé* pour les entretiens d'embauche demandant de comprendre du code (bon… peut-être pas vraiment).
 
 {{< zigdoctest "assets/zig-code/samples/3-ziggzagg.zig" >}}
 

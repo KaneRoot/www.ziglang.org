@@ -6,7 +6,7 @@ toc: true
 ---
 
 ## Serveurs de langue
-Les serveurs de langue (*langage servers*) sont des outils indépendants des éditeurs de code qui permettent la coloration syntaxique, l'autocomplétion et bien d'autres fonctionnalités.
+Les serveurs de langue (*langage servers*) sont des outils indépendants des éditeurs de code qui permettent la coloration syntaxique, l'auto complétion et bien d'autres fonctionnalités.
 Un serveur de langue est recommandé pour avoir une meilleure expérience de développement.
 
 - [zigtools/zls](https://github.com/zigtools/zls)

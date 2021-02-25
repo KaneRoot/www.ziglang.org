@@ -1,5 +1,5 @@
 ---
-title: "Pourquoi Zig quand il existe déjà C++, D, et Rust ?"
+title: "Pourquoi Zig alors qu'il existe déjà C++, D, et Rust ?"
 mobile_menu_title: "Pourquoi Zig..."
 toc: true
 ---
@@ -8,7 +8,7 @@ toc: true
 ## Pas de flot de contrôle caché
 
 Si un code en Zig ne semble pas faire appel à une fonction, c'est qu'il ne le fait pas.
-Cela veut dire que vous pouvez être sûr que le code suivant ne fait appel qu'à `foo()` puis `bar()`, et c'est garanti sans connaître aucun des types impliqués :
+Vous pouvez être sûr que le code suivant ne fait appel qu'à `foo()` puis `bar()`, sans même connaître les types impliqués :
 
 ```zig
 var a = b + c.d;
@@ -21,7 +21,7 @@ Exemples de flots de contrôle cachés :
 - D a des fonctions `@property`, des méthodes qui ressemblent à de simples accès à des champs d'une structure, `c.d` peut être un appel à une fonction.
 - C++, D, et Rust ont de la surcharge d'opérateurs, donc l'opérateur `+` peut appeler une fonction.
 - C++, D, et Go ont des exceptions *throw/catch*, donc `foo()` peut lancer une exception, et empêcher `bar()` d'être appelé.
-(Bien sûr, même en Zig `foo()` pourrait être bloquant et empêcher `bar()` d'être appelée, mais cela pourrait survenir dans n'importe-quel langage Turing-complet.)
+(Bien sûr, même en Zig `foo()` pourrait être bloquant et empêcher `bar()` d'être appelée, mais cela pourrait survenir dans n'importe quel langage Turing-complet.)
 
 L'objectif de cette conception est d'améliorer la lisibilité.
 
@@ -33,21 +33,23 @@ Le concept de *tas* est géré par une bibliothèque ou le code de l'application
 
 Exemples d'allocations cachées :
 
-* En Go, `defor` alloue de la mémoire dans la pile de la fonction.
-En plus d'être un flot de contrôle contre-intuitif, cela peut provoquer des erreurs d'allocation de mémoire si vous utilisez `defer` dans une boucle.
+* En Go, `defer` alloue de la mémoire dans la pile de la fonction.
+En plus d'être un flot de contrôle contre-intuitif, cela peut provoquer des erreurs d'allocation de mémoire si `defer` est utilisé dans une boucle.
 * Les coroutines C++ allouent de la mémoire sur le tas pour appeler une coroutine.
-* En Go, un appel de fonction peut engendrer une allocation sur le tas car les *goroutines* allouent des petites piles qui finissent par être redimensionnées lorsque la pile est trop sollicitée.
-* Les API standards de Rust plantent sur des conditions de manque de mémoire, et les API alternatives qui acceptent un allocateur de mémoire sont des réflexions après coup (voir [rust-lang/rust#29802 (EN)](https://github.com/rust-lang/rust/issues/29802)).
+* En Go, un appel de fonction peut engendrer une allocation sur le tas.
+Les *goroutines* allouent des petites piles qui finissent par être redimensionnées lorsque la pile est trop sollicitée.
+* Les API standards de Rust plantent sur des conditions de manque de mémoire.
+Les API alternatives qui acceptent un allocateur de mémoire sont des réflexions après coup (voir [rust-lang/rust#29802 (EN)](https://github.com/rust-lang/rust/issues/29802)).
 
 Presque tous les langages avec ramasse-miettes (*garbage collector*) ont des flots de contrôle cachés éparpillés, puisque le ramasse-miettes cache la libération de la mémoire.
 
-Le principal problème avec les allocations de mémoire cachées est qu'elles empêchent la réutilisabilité du code, limitant le nombre d'environnements dans lequel il pourrait être déployé.
-En des termes simples, il existe des cas nécessitant de n'avoir aucune allocation mémoire, donc le langage de programmation doit fournir cette garantie.
+Le principal problème avec les allocations de mémoire cachées est qu'elles empêchent la réutilisation du code dans certains environnements.
+Certains cas nécessitent de n'avoir aucune allocation mémoire, donc le langage de programmation doit fournir cette garantie.
 
-En Zig, il y a des fonctionnalités de la bibliothèque standard qui fournissent et fonctionnent avec des allocateurs de mémoire, mais elles sont optionnelles, pas incluses dans le langage de programmation lui-même.
+En Zig, il y a des fonctionnalités de la bibliothèque standard qui fournissent et fonctionnent avec des allocateurs de mémoire ; elles sont optionnelles, non incluses dans le langage de programmation lui-même.
 Si vous n'allouez pas de mémoire dans le tas, vous pouvez être sûr que votre programme ne le fera pas.
 
-Chaque fonctionnalité de la bibliothèque standard qui nécessite d'allouer de la mémoire sur le tas prennent un paramètre `Allocator`.
+Chaque fonction de la bibliothèque standard nécessitant d'allouer de la mémoire sur le tas prend un paramètre `Allocator`.
 Cela veut dire que la bibliothèque standard de Zig prend en charge les cibles `freestanding` (qui ne nécessitent pas de système d'exploitation).
 Par exemple, `std.ArrayList` et `std.AutoHashMap` peuvent être utilisées pour de la programmation matérielle !
 
