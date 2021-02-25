@@ -5,7 +5,7 @@ toc: true
 ---
 
 ## Détection de fuites de mémoire
-En utilisant `std.GeneralPurposeAllocator` vous pouvez trouver les libérations multiples de mémoire et les fuites.
+En utilisant `std.heap.GeneralPurposeAllocator` vous pouvez trouver les libérations multiples de mémoire et les fuites.
 
 {{< zigdoctest "assets/zig-code/samples/1-memory-leak.zig" >}}
 

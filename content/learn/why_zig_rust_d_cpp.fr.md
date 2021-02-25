@@ -46,17 +46,18 @@ Presque tous les langages avec ramasse-miettes (*garbage collector*) ont des flo
 Le principal problème avec les allocations de mémoire cachées est qu'elles empêchent la réutilisation du code dans certains environnements.
 Certains cas nécessitent de n'avoir aucune allocation mémoire, donc le langage de programmation doit fournir cette garantie.
 
-En Zig, il y a des fonctionnalités de la bibliothèque standard qui fournissent et fonctionnent avec des allocateurs de mémoire ; elles sont optionnelles, non incluses dans le langage de programmation lui-même.
+En Zig, certaines fonctions de la bibliothèque standard qui fournissent et fonctionnent avec des allocateurs de mémoire.
+Ces fonctions sont optionnelles, non incluses dans le langage de programmation lui-même.
 Si vous n'allouez pas de mémoire dans le tas, vous pouvez être sûr que votre programme ne le fera pas.
 
 Chaque fonction de la bibliothèque standard nécessitant d'allouer de la mémoire sur le tas prend un paramètre `Allocator`.
 Cela veut dire que la bibliothèque standard de Zig prend en charge les cibles `freestanding` (qui ne nécessitent pas de système d'exploitation).
 Par exemple, `std.ArrayList` et `std.AutoHashMap` peuvent être utilisées pour de la programmation matérielle !
 
-Les allocateurs de mémoire sur-mesure rendent simple la gestion manuelle de la mémoire.
+Les allocateurs de mémoire sur mesure rendent simple la gestion manuelle de la mémoire.
 Zig a un allocateur de mémoire de debug qui vérifie les erreurs comme les utilisations après libération (*use-after-free*) et les double libérations (*double free*).
 Il détecte automatiquement et affiche la trace de la pile en cas de fuite de mémoire.
-Zig possède également un allocateur *arêne* permettant de multiples allocations de mémoire puis de toutes les libérer en une seule fois.
+Zig possède également un allocateur *arène* permettant de multiples allocations de mémoire puis de toutes les libérer en une seule fois.
 D'autres allocateurs, plus spécifiques, peuvent améliorer les performances ou l'usage de la mémoire pour des besoins spécifiques.
 
 [1]: En réalité, il y a un opérateur de concaténation de chaînes de caractères (un opérateur de concaténation de tableaux, pour être plus précis), mais il fonctionne à la compilation.
@@ -70,15 +71,16 @@ Zig a la même prise en charge avec ou sans libc.
 Zig encourage son utilisation directement sur le matériel et le développement à haute performance.
 
 Ceci est le meilleur des deux mondes.
-Par exemple en Zig, les programmes WebAssembly peuvent utiliser les fonctionnalités habituelles de la bibliothèque standard, et quand même avoir de petits exécutables comparés aux autres langages prennant en charge WebAssembly.
+Par exemple, les programmes WebAssembly peuvent utiliser les fonctionnalités habituelles de la bibliothèque standard, et quand même avoir des exécutables de petite taille comparés aux autres langages prenant en charge WebAssembly.
 
 ## Un langage pour des bibliothèques portables
 
-Le graal en programmation est de pouvoir réutiliser le code.
+Le saint Graal en programmation est de pouvoir réutiliser le code.
 Malheureusement, en pratique, nous réécrivons les mêmes fonctions, les mêmes bibliothèques… et cela est souvent justifié.
 
 * Si l'application nécessite du temps-réel, alors toute bibliothèque utilisant un ramasse-miettes ou tout autre comportement non déterministe est disqualifiée.
-* Si le langage rend trop facile pour le développeur d'ignorer les erreurs, et qu'il faut s'assurer que la bibliothèque gère correctement les erreurs, il peut être tentant de mettre de côté la bibliothèque et de la réécrire.
+* Si le langage rend trop facile pour le développeur d'ignorer les erreurs, et qu'il faut s'assurer que la bibliothèque les gère correctement.
+Il peut être tentant de mettre de côté la bibliothèque et de la réécrire.
 Zig est conçu pour que la gestion correcte des erreurs soit la chose la plus paresseuse à faire pour le développeur, et que donc nous soyons confiant dans la bibliothèque.
 * Pour le moment il est en pratique vrai que le C est le langage le plus versatile et portable.
 Tout langage n'ayant pas de possibilité d'interagir avec le C risque de disparaître.
@@ -95,10 +97,10 @@ L'outil de construction est conçu pour être utile même si le code est entièr
 Les gestionnaires de paquets du système comme `apt`, `pacman`, `homebrew` et les autres sont nécessaires pour une bonne expérience utilisateur, mais sont insuffisants pour des développeurs.
 Un gestionnaire de paquets pour un langage spécifique peut faire la différence entre ne pas avoir de contributeurs et en avoir des dizaines.
 Pour des projets libres, avoir des difficultés à compiler le projet est un énorme frein pour les contributeurs potentiels.
-Pour les projets en C/C++, avoir des dépendences peut être fatal, surtout sur Windows où il n'y a pas de gestionnaire de paquets.
+Pour les projets en C/C++, avoir des dépendances peut être fatal, surtout sur Windows où il n'y a pas de gestionnaire de paquets.
 Même pour compiler Zig lui-même, les contributeurs potentiels ont des difficultés avec la dépendance à LLVM.
 Zig offre une solution simple pour les projets de dépendre sur des bibliothèques natives, sans dépendre du gestionnaire de paquets du système, évitant ainsi les problèmes de dépendances ou de mauvaises versions installées.
-Les projets sont presques garantis de compiler du premier coup, peu importe l'état du système ou la plateforme utilisée ou ciblée.
+Les projets sont presque garantis de compiler du premier coup, peu importe l'état du système ou la plateforme utilisée ou ciblée.
 
 Zig permet de remplacer l'outil de construction du projet avec un langage raisonnable utilisant une API déclarative pour construire les projets.
 Zig remplace aussi le gestionnaire de paquets, permettant de dépendre de bibliothèques en C.
@@ -109,7 +111,7 @@ Avoir des bibliothèques facilement réutilisables permet en définitive de prod
 C++, Rust, et D ont énormément de fonctionnalités et peuvent rendre le code plus complexe que nécessaire.
 Il est possible de passer du temps à se remémorer des détails du langage plutôt qu'à coder le cœur de son application, c'est une distraction.
 
-Zig n'a pas de macros ni de metaprogrammation, et pourtant le langage exprime des programme complexes d'une manière claire, non répétitive.
+Zig n'a pas de macros ni de métaprogrammation, et pourtant le langage exprime des programme complexes d'une manière claire, non répétitive.
 Même Rust implémente en dur certaines macros, comme `format!`.
 L'équivalent en Zig est implémenté dans la bibliothèque standard sans code en dur dans le compilateur.
 
@@ -118,12 +120,12 @@ L'équivalent en Zig est implémenté dans la bibliothèque standard sans code e
 Zig peut être téléchargé depuis [la section Téléchargements](/fr/download/).
 Zig fournit des archives avec un binaire pré-compilé pour Linux, Windows, macOS et FreeBSD.
 
-Voici le contenu de ces archives :
+Grâce à ces archives, nous obtenons :
 
 * un compilateur Zig, compilé statiquement et donc sans dépendances système
-* installation via le téléchargement puis l'extraction d'une seule archive, sans configuration du système
+* l'installation via l'extraction d'une simple archive, sans configuration du système
 * des optimisations avancées grâce à l'infrastructure LLVM et une prise en charge de la plupart des plateformes connues
-* cross-compilation sans effort
+* la cross-compilation sans effort
 * la libc d'un certain nombre de plateformes, qui seront compilées seulement quand nécessaire
 * un outil de construction avec un cache
-* compile du code C et C++ avec la libc nécessaire au système cible
+* un compilateur C et C++ avec la libc nécessaire au système cible
