@@ -13,7 +13,7 @@ La syntaxe de Zig est entièrement spécifiée dans [500 lignes de grammaire PEG
 Rien n'est caché : ni **flots de contrôle**, ni allocations de mémoire.
 Zig n'a pas de préprocesseur ni de macros.
 Si un code en Zig ne semble pas faire appel à une fonction, c'est qu'il ne le fait pas.
-Cela veut dire que vous pouvez être sûr que le code suivant ne fait appel qu'à `foo()` puis `bar()`, et c'est garanti sans connaître aucun des types impliqués :
+Vous pouvez donc être sûr que le code suivant ne fait appel qu'à `foo()` puis `bar()`, sans même connaître les types impliqués :
 
 ```zig
 var a = b + c.d;
@@ -27,7 +27,7 @@ Exemples de flots de contrôle cachés :
 - C++, D, et Rust ont de la surcharge d'opérateurs, donc l'opérateur `+` peut appeler une fonction.
 - C++, D, et Go ont des exceptions *throw/catch*, donc `foo()` peut lancer une exception, et empêcher `bar()` d'être appelé.
 
-Zig promeut la maintenance et la lisibilité du code en imposant tout flot de contrôle à être géré exclusivement avec des mots clés du langage et des appels de fonction.
+Zig promeut la maintenance et la lisibilité du code : tout flot de contrôle est géré exclusivement avec des mots clés du langage et des appels de fonction.
 
 ## Performance ET sécurité
 
@@ -35,8 +35,10 @@ Zig a quatre [modes de compilation (EN)](https://ziglang.org/documentation/maste
 
 | Mode de compilation | [Debug](/documentation/master/#Debug) | [ReleaseSafe](/documentation/master/#ReleaseSafe) | [ReleaseFast](/documentation/master/#ReleaseFast) | [ReleaseSmall](/documentation/master/#ReleaseSmall) |
 |-----------|-------|-------------|-------------|--------------|
-Optimisations : + vitesse d'exécution, - debug, - durée de compilation | | -O3 | -O3| -Os |
+Optimisations : + vitesse d'exécution, - détection d'erreurs, - durée de compilation | | -O3 | -O3| -Os |
 Vérifications à l'exécution : - vitesse d'exécution, - taille, + plantage si comportement indéfini | On | On | | |
+
+(Note : **'+'** indique un avantage, **'-'** indique un inconvénient.)
 
 Voici ce à quoi ressemble un [dépassement d'entier (EN)](https://ziglang.org/documentation/master/#Integer-Overflow) à la compilation, peu importe le mode de compilation :
 
@@ -48,16 +50,16 @@ Voici ce à quoi ressemble l'exécution avec une compilation avec des vérificat
 
 Ces [traces d'appels fonctionnent sur toutes les cibles](#traces-de-pile-dexécution-sur-toutes-les-cibles), et également en [« freestanding » (binaire autonome, sans système d'exploitation) (EN)](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html).
 
-Avec Zig il est possible de s'appuyer sur une compilation avec vérifications à l'exécution, tout en désactivant les vérifications seulement où les performances sont trop impactées.
-Par exemple, l'exemple précédent pourrait être modifié comme cela :
+Zig permet de compiler son programme avec des vérifications à l'exécution, tout en les désactivant seulement où les performances sont trop impactées.
+L'exemple précédent pourrait être modifié comme cela :
 
 {{< zigdoctest "assets/zig-code/features/3-undefined-behavior.zig" >}}
 
-Zig détecte les [comportements indéfinis (EN)](https://ziglang.org/documentation/master/#Undefined-Behavior) à la compilation pour à la fois la prévention d'erreurs et l'amélioration des performances.
+Zig détecte les [comportements indéfinis (EN)](https://ziglang.org/documentation/master/#Undefined-Behavior) à la compilation pour la prévention d'erreurs et l'amélioration des performances.
 
 En parlant de performances, Zig est plus rapide que le C.
 
-- L'implémentation de référence utilise LLVM comme un backend pour avoir l'état de l'art des optimisations.
+- L'implémentation de référence utilise LLVM comme backend pour avoir l'état de l'art des optimisations.
 - Ce que les autres projets appellent « Link Time Optimization », Zig l'a automatiquement.
 - Pour les cibles natives, les fonctionnalités CPU avancées sont activées (-march=native) grâce à la [prise en charge de premier plan de la cross-compilation](#la-cross-compilation-est-un-usage-de-première-importance).
 - Les comportements indéfinis sont soigneusement choisis.
@@ -78,7 +80,7 @@ Voici un Hello World :
 
 {{< zigdoctest "assets/zig-code/features/4-hello.zig" >}}
 
-Quand ce code est compilé avec `-O ReleaseSmall`, les symboles de debug retirés, sur un seul fil d'exécution, cela produit un binaire static de 9.8 KiB pour la cible x86_64 :
+Quand ce code est compilé avec `-O ReleaseSmall`, les symboles de debug retirés, sur un seul fil d'exécution, cela produit un binaire statique de 9.8 KiB pour la cible x86_64 :
 ```
 $ zig build-exe hello.zig --release-small --strip --single-threaded
 $ wc -c hello
@@ -98,14 +100,14 @@ hello.exe: PE32+ executable (console) x86-64, for MS Windows
 
 ## Déclarations de premier niveau indépendantes de l'ordre
 
-Les déclarations de premier niveau, comme les variables globales, sont indépendantes de l'ordre dans lequelle elles sont écrites et leur analyse est paresseuse.
+Les déclarations de premier niveau, comme les variables globales, sont indépendantes de l'ordre dans lequel elles sont écrites et leur analyse est paresseuse.
 Les valeurs d'initialisation des variables globales sont [évaluées à la compilation](#réflexivité-et-exécution-de-code-à-la-compilation).
 
 {{< zigdoctest "assets/zig-code/features/5-global-variables.zig" >}}
 
 ## Type optionnel plutôt que des pointeurs null
 
-Dans d'autres langages de programmation, les références nulles sont sources d'erreurs à l'exécution, et sont même soupçonnées être [la pire erreur en informatique (EN)](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/).
+Dans d'autres langages de programmation, les références *null* sont sources d'erreurs à l'exécution, et sont même soupçonnées être [la pire erreur en informatique (EN)](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/).
 
 Les pointeurs en Zig ne peuvent pas être null :
 
@@ -129,8 +131,7 @@ Cette syntaxe fonctionne également avec [while (EN)](https://ziglang.org/docume
 
 ## Gestion manuelle de la mémoire
 
-Une bibliothèque écrite en Zig peut être utilisée n'importe-où :
-A library written in Zig is eligible to be used anywhere:
+Une bibliothèque écrite en Zig peut être utilisée n'importe où :
 
 - [Applications de bureau](https://github.com/TM35-Metronome/) & [jeux](https://github.com/dbandstra/oxid)
 - Serveur basse latence
@@ -140,13 +141,13 @@ A library written in Zig is eligible to be used anywhere:
 - [Dans des navigateurs web ou des modules WebAssembly](https://shritesh.github.io/zigfmt-web/)
 - Par d'autres langages de programmation, utilisant l'ABI de C
 
-Pour accomplir tout cela, les développeurs de Zig doivent gérer eux-même la mémoire, et doivent gérer les erreurs d'allocation.
+Pour accomplir tout cela, les développeurs de Zig doivent gérer la mémoire et les erreurs d'allocation.
 
 Cela est vrai également pour la bibliothèque standard de Zig.
 Chaque fonction nécessitant d'allouer de la mémoire accepte un *allocateur* en paramètre.
 Par conséquent, la bibliothèque standard de Zig peut être utilisée même pour un binaire « freestanding » (application autonome, sans système d'exploitation).
 
-En plus d'apporter un [point de vue nouveau sur la gestion d'erreurs](#une-nouvelle-manière-de-gérer-les-erreurs), Zig fournit [defer (EN)](https://ziglang.org/documentation/master/#defer) et [errdefer (EN)](https://ziglang.org/documentation/master/#errdefer) pour rendre la gestion de *toutes les ressources* plus simple et facilement vérifiable, pas seulement la mémoire.
+En plus d'apporter un [point de vue nouveau sur la gestion d'erreurs](#une-nouvelle-manière-de-gérer-les-erreurs), Zig fournit [defer (EN)](https://ziglang.org/documentation/master/#defer) et [errdefer (EN)](https://ziglang.org/documentation/master/#errdefer) pour rendre la gestion de *toutes les ressources* plus simple et facilement vérifiable (pas seulement la mémoire).
 
 Pour un exemple de `defer`, voir [l'intégration des bibliothèques C sans FFI/bindings](#intégration-avec-les-bibliothèques-c-sans-ffibindings).
 Voici un exemple de code utilisant `errdefer` :
@@ -183,7 +184,7 @@ Cela implique un [comportement indéfini](#performance-et-sécurité) dans les m
 
 ### Traces de pile d'exécution sur toutes les cibles
 
-Les traces de piles d'exécution and les [traces de retour d'erreurs (EN)](https://ziglang.org/documentation/master/#Error-Return-Traces) montrées sur cette page fonctionnent sur toutes les cibles ayant une [prise en charge de niveau 1](#prise-en-charge-niveau-1) et certaines cibles de [niveau 2](#prise-en-charge-niveau-2).
+Les traces de piles d'exécution et les [traces de retour d'erreurs (EN)](https://ziglang.org/documentation/master/#Error-Return-Traces) montrées sur cette page fonctionnent sur toutes les cibles ayant une [prise en charge de niveau 1](#prise-en-charge-niveau-1) et certaines cibles de [niveau 2](#prise-en-charge-niveau-2).
 Y compris [freestanding (EN)](https://andrewkelley.me/post/zig-stack-traces-kernel-panic-bare-bones-os.html) !
 
 De plus, la bibliothèque standard a la possibilité de capturer une trace d'exécution et de l'afficher plus tard :
@@ -237,7 +238,8 @@ Output device: Built-in Audio Analog Stereo
 ^C
 ```
 
-[Ce code Zig est bien plus simple que son équivalent en C](https://gist.github.com/andrewrk/d285c8f912169329e5e28c3d0a63c1d8), et est également plus sécurisé, et tout ceci est accompli en important le fichier d'en-tête C - aucune API n'est utilisée.
+[Ce code Zig est bien plus simple que son équivalent en C](https://gist.github.com/andrewrk/d285c8f912169329e5e28c3d0a63c1d8) et est également plus sécurisé.
+Tout ceci est accompli en important le fichier d'en-tête C - aucune API n'est utilisée.
 
 *Zig est meilleur que le C à utiliser des bibliothèques… C.*
 
@@ -323,7 +325,7 @@ $ zig build test
 
 ## La cross-compilation est un usage de première importance
 
-Zig peut compiler pour n'importe-quelle cible du [tableau prise en charge](#prise-en-charge-des-systèmes) avec un [niveau 3](#prise-en-charge-niveau-3) ou mieux.
+Zig peut compiler pour n'importe quelle cible du [tableau prise en charge](#prise-en-charge-des-systèmes) avec un [niveau 3](#prise-en-charge-niveau-3) ou mieux.
 Pas besoin d'installer une chaîne de compilation.
 Voici un simple Hello World :
 
@@ -342,7 +344,7 @@ $ file hello
 hello: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), statically linked, with debug_info, not stripped
 ```
 
-Cela fonctionne sur toutes les cibles de [niveau 3](#prise-en-charge-niveau-3) ou plus, pour n'importe-quelle cible de [niveau 3](#prise-en-charge-niveau-3) ou plus.
+Cela fonctionne sur toutes les cibles de [niveau 3](#prise-en-charge-niveau-3) ou plus, pour n'importe quelle cible de [niveau 3](#prise-en-charge-niveau-3) ou plus.
 
 ### Zig fournit la libc
 
@@ -429,7 +431,7 @@ Dans cet exemple, Zig compile la libc musl depuis les sources puis l'utilise pou
 Les fichiers de construction de cette bibliothèque restent disponibles pour de futures compilations (elle n'aura pas à être recompilée) grâce au [système de cache (EN)](https://ziglang.org/download/0.4.0/release-notes.html#Build-Artifact-Caching).
 
 Cette fonctionnalité est disponible pour toutes les plateformes.
-Les utilisateurs de Windows et MacOS peuvent compiler du code C et Zig, les lier à la libc, pour toutes les cibles listées au-dessus.
+Les utilisateurs de Windows et macOS peuvent compiler du code C et Zig, les lier à la libc, pour toutes les cibles listées au-dessus.
 De même, le code peut être compilé pour d'autres architectures :
 ```
 $ zig build-exe --c-source hello.c --library c -target aarch64v8-linux-gnu
@@ -441,7 +443,7 @@ D'une certaine façon, Zig est un meilleur compilateur C que les compilateurs C�
 
 Cette fonctionnalité est plus qu'un outil pour créer une chaîne de compilation croisée.
 Par exemple, la taille totale des en-têtes de libc que Zig fournit est de 22 MiB sans compression.
-Pendant ce temps, seulement les en-têtes pour musl et linux pour `x86_64` font déjà 8 MiB, et glic fait déjà 3.1 MiB à lui seul (sans les en-têtes de linux).
+Pendant ce temps, seulement les en-têtes pour musl et linux pour `x86_64` font déjà 8 MiB, et glibc fait déjà 3.1 MiB à lui seul (sans les en-têtes de linux).
 Pourtant, Zig est actuellement fourni avec 40 libc.
 Avec un paquetage naïf cela voudrait dire 444 MiB.
 Cependant, grâce à un [outil de gestion d'en-têtes (EN)](https://github.com/ziglang/zig/blob/0.4.0/libc/process_headers.zig), et à un [travail manuel minutieux (EN)](https://github.com/ziglang/zig/wiki/Updating-libc), les archives de Zig restent autour de 30 MiB, malgré le support de toutes ces cibles, en plus des bibliothèques `compiler-rt`, `libunwind` et `libcxx`, et malgré le fait d'être un compilateur C compatible Clang.
@@ -450,7 +452,7 @@ En comparaison, clang 8.0.0 seul pour Windows pèse 132 MiB.
 À noter que seules les cibles [de niveau 1](#prise-en-charge-niveau-1) ont été testées en détail.
 Il est prévu d'[ajouter d'autres libc (EN)](https://github.com/ziglang/zig/issues/514) (en incluant Windows), et d'ajouter des [tests de couverture pour compiler vers toutes les architectures (EN)](https://github.com/ziglang/zig/issues/2058).
 
-Il est prévu d'avoir un [gestionnaire de paquets Zig (EN)](https://github.com/ziglang/zig/issues/943), mais il n'est pas encore là.
+Un [gestionnaire de paquets Zig (EN)](https://github.com/ziglang/zig/issues/943) est prévu, mais il n'est pas encore là.
 Cela permettra de créer des paquets pour des bibliothèques C et rendra le [système de construction de Zig](#système-de-construction-de-zig) attractif à la fois pour les développeurs C et Zig.
 
 ## Système de construction de Zig
@@ -526,7 +528,8 @@ Zig 0.5.0 [a introduit les fonctions async (EN)](https://ziglang.org/download/0.
 Cette fonctionnalité n'a pas de dépendance au système d'exploitation hôte ou même à l'allocation de mémoire dans le tas.
 Cela veut dire que les fonctions async sont disponibles pour la cible « freestanding » (sans système d'exploitation).
 
-Zig déduit si une fonction est async, et permet `async`/`await` sur des fonctions non async, ce qui veut dire que **les bibliothèques Zig sont agnostiques de la notion d'appel bloquant vs entrées-sorties asynchrones**.
+Zig déduit si une fonction est async, et permet `async`/`await` sur des fonctions non async.
+Les **bibliothèques Zig sont donc les mêmes avec des appels bloquants ou des entrées et sorties asynchrones**.
 [Zig évite la coloration des fonctions (EN)](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/).
 
 
@@ -535,7 +538,7 @@ La sécurité de multiples fils d'exécution et la détection de *race condition
 
 ## Une large variété de cibles est disponible
 
-Zig a un système de « niveaux de prise en charge » (*support tier*) pour communiquer autour des différentes cibles.
+Zig a un système de « niveaux de prise en charge » pour communiquer autour des différentes cibles.
 À noter que la barre est haute pour atteindre le [niveau 1](#prise-en-charge-niveau-1) - la prise en charge de [niveau 2](#prise-en-charge-niveau-2) est déjà intéressante.
 
 ### Prise en charge des systèmes
@@ -591,7 +594,7 @@ Zig a un système de « niveaux de prise en charge » (*support tier*) pour co
 - Ces cibles ont des informations de debug et par conséquent produisent des [traces de piles d'exécution](#traces-de-pile-d'exécution-sur-toutes-les-cibles) lors des assertions fausses.
 - [La libc est disponible pour ces cibles même lors d'une cross-compilation](#zig-fournit-la-libc).
 - Tous les tests de comportement et de la bibliothèque standard passent pour cette cible.
-Toutes les fonctionnalité du langage fonctionnent correctement.
+Toutes les fonctionnalités du langage fonctionnent correctement.
 
 #### Prise en charge niveau 2
 - La bibliothèque standard prend en charge cette cible, mais il est possible que certaines API ne soient pas complètes (erreur *Unsupported OS* à la compilation).
@@ -602,26 +605,26 @@ Il est cependant possible de lier l'application à une libc pour compléter ce q
 #### Prise en charge niveau 3
 
 - La bibliothèque standard a peu voir pas du tout connaissance de ces cibles.
-- Comme Zig est fondé sur LLVM, il a la capacité de compiler pour ces cibles, et cette cible est disponible par défaut grâce à LLVM.
-- Ces cibles ne sont pas souvent testées ; il est probable de devoir contribuer à Zig pour pouvoir compiler pour ces cibles.
+- Comme Zig est fondé sur LLVM, il a la capacité de compiler pour ces cibles, disponibles par défaut grâce à LLVM.
+- Ces cibles ne sont pas souvent testées ; il est probable de devoir contribuer à Zig pour arriver à un résultat satisfaisant.
 - Le compilateur Zig peut avoir besoin d'être mis à jour pour connaître quelques informations sur la cible, comme :
-  - les tailles des entiers en C
+  - la taille des entiers en C
   - la convention d'appel à l'ABI C
-  - le code d'initialisation et la gestion d'erreur par défaut
+  - le code d'initialisation et la gestion d'erreurs par défaut
 - `zig targets` inclut cette cible.
 
 #### Prise en charge niveau 4
 
 - La prise en charge de ces cibles est entièrement expérimentale.
-- LLVM peut avoir ces cibles comme *expérimentales*, ce qui veut dire qu'il est nécessaire d'utiliser les binaires fournit par Zig pour avoir accès à ces cibles, ou compiler soi-même LLVM avec des options spécifiques.
+- LLVM peut avoir ces cibles comme *expérimentales*, ce qui veut dire qu'il est nécessaire d'utiliser les binaires fournis par Zig pour avoir accès à ces cibles, ou compiler soi-même LLVM avec des options spécifiques.
 `zig targets` affichera ces cibles si elles sont disponibles.
 - Ces cibles sont considérées abandonnées par l'organisme officiellement en charge, comme [macosx/i386 (EN)](https://support.apple.com/en-us/HT208436), et dans ce cas ces cibles seront toujours bloquées au niveau 4 de prise en charge.
-- Ces cibles ne prennent en charge que la création d'assembleur via `--emit` et ne peuvent pas fournir de fichiers objet.
+- Zig (via LLVM) permet de générer du code assembleur via `--emit asm` mais pas de fichiers objet.
 
 ## Agréable pour les mainteneurs de paquets
 
-Le compilateur Zig de référence n'est pas complètement autonome pour le moment.
-Mais peu importe, il ne reste [exactement que 3 étapes (EN)](https://github.com/ziglang/zig/issues/853) pour avoir un système autonome pouvant compiler pour n'importe-quelle cible et se débarasser de la dépendence à un compilateur C++.
+Le compilateur Zig de référence n'est pas complètement autonome pour le moment (il ne se compile pas lui-même).
+Mais peu importe, il ne reste [exactement que 3 étapes (EN)](https://github.com/ziglang/zig/issues/853) pour avoir un système autonome pouvant compiler pour n'importe quelle cible et se débarrasser de la dépendance à un compilateur C++.
 Pour citer Maya Rashish : [porter Zig sur d'autres plateformes est fun et rapide (EN)](http://coypu.sdf.org/porting-zig.html).
 
 Les modes de compilation [sans debug (EN)](/documentation/master/#Build-Mode) sont reproductibles, déterministes.

@@ -114,7 +114,7 @@ L'équivalent en Zig est implémenté dans la bibliothèque standard sans code e
 ## Outils
 
 Zig peut être téléchargé depuis [la section Téléchargements](/fr/download/).
-Zig fournit des archives avec un binaire pré-compilé pour Linux, Windows, MacOS et FreeBSD.
+Zig fournit des archives avec un binaire pré-compilé pour Linux, Windows, macOS et FreeBSD.
 
 Voici le contenu de ces archives :
 
