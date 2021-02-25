@@ -1,6 +1,6 @@
 ---
-title: "Dans le détail"
-mobile_menu_title: "Détail"
+title: "Vue d'ensemble du projet Zig"
+mobile_menu_title: "Vue d'ensemble"
 toc: true
 ---
 # Fonctionnalités
