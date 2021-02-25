@@ -81,3 +81,47 @@ Zig est conçu pour que la gestion correcte des erreurs soit la chose la plus pa
 * Pour le moment il est en pratique vrai que le C est le langage le plus versatile et portable.
 Tout langage n'ayant pas de possibilité d'interagir avec le C risque de disparaître.
 Zig est une tentative de devenir le nouveau langage portable pour les bibliothèques en rendant à la fois facile de se conformer à l'ABI C pour les fonctions exportées, et introduisant de la sécurité et une conception de langage qui empêche les erreurs les plus communes dans les implémentations.
+
+## Un gestionnaire de paquets et un outil de construction
+
+Zig est un langage de programmation, mais il fournit également un outil de construction et un gestionnaire de paquets qui sont pensés pour être utiles même dans un contexte de développement C/C++.
+
+Non seulement vous pouvez écrire du code C ou C++, mais vous pouvez également utiliser Zig comme un remplaçant aux `autotools`, cmake, make, scons, ninja, etc.
+Et en plus de cela, il *fournira* un gestionnaire de paquets pour les dépendances natives.
+L'outil de construction est conçu pour être utile même si le code est entièrement en C ou C++.
+
+Les gestionnaires de paquets du système comme `apt`, `pacman`, `homebrew` et les autres sont nécessaires pour une bonne expérience utilisateur, mais sont insuffisants pour des développeurs.
+Un gestionnaire de paquets pour un langage spécifique peut faire la différence entre ne pas avoir de contributeurs et en avoir des dizaines.
+Pour des projets libres, avoir des difficultés à compiler le projet est un énorme frein pour les contributeurs potentiels.
+Pour les projets en C/C++, avoir des dépendences peut être fatal, surtout sur Windows où il n'y a pas de gestionnaire de paquets.
+Même pour compiler Zig lui-même, les contributeurs potentiels ont des difficultés avec la dépendance à LLVM.
+Zig offre une solution simple pour les projets de dépendre sur des bibliothèques natives, sans dépendre du gestionnaire de paquets du système, évitant ainsi les problèmes de dépendances ou de mauvaises versions installées.
+Les projets sont presques garantis de compiler du premier coup, peu importe l'état du système ou la plateforme utilisée ou ciblée.
+
+Zig permet de remplacer l'outil de construction du projet avec un langage raisonnable utilisant une API déclarative pour construire les projets.
+Zig remplace aussi le gestionnaire de paquets, permettant de dépendre de bibliothèques en C.
+Avoir des bibliothèques facilement réutilisables permet en définitive de produire du code de plus haut niveau.
+
+## Simplicité
+
+C++, Rust, et D ont énormément de fonctionnalités et peuvent rendre le code plus complexe que nécessaire.
+Il est possible de passer du temps à se remémorer des détails du langage plutôt qu'à coder le cœur de son application, c'est une distraction.
+
+Zig n'a pas de macros ni de metaprogrammation, et pourtant le langage exprime des programme complexes d'une manière claire, non répétitive.
+Même Rust implémente en dur certaines macros, comme `format!`.
+L'équivalent en Zig est implémenté dans la bibliothèque standard sans code en dur dans le compilateur.
+
+## Outils
+
+Zig peut être téléchargé depuis [la section Téléchargements](/fr/download/).
+Zig fournit des archives avec un binaire pré-compilé pour Linux, Windows, MacOS et FreeBSD.
+
+Voici le contenu de ces archives :
+
+* un compilateur Zig, compilé statiquement et donc sans dépendances système
+* installation via le téléchargement puis l'extraction d'une seule archive, sans configuration du système
+* des optimisations avancées grâce à l'infrastructure LLVM et une prise en charge de la plupart des plateformes connues
+* cross-compilation sans effort
+* la libc d'un certain nombre de plateformes, qui seront compilées seulement quand nécessaire
+* un outil de construction avec un cache
+* compile du code C et C++ avec la libc nécessaire au système cible
