@@ -69,7 +69,7 @@ choco install zig
 
 #### macOS
 
-**Homebrew**  
+**Homebrew**
 NOTE: Homebrew n'a pas encore de bouteille pour Apple Silicon.Si vous avez un Mac M1, vous devez compiler Zig depuis les sources.
 
 Dernière version taguée :
@@ -91,7 +91,7 @@ Zig est également disponible dans divers gestionnaires de paquets pour Linux. [
 vous pouvez trouver une liste mise à jour, mais gardez à l'esprit que ces dépôts peuvent ne pas être à jour.
 
 ### Compilation des sources
-[Ici](https://github.com/ziglang/zig/wiki/Building-Zig-From-Source) 
+[Ici](https://github.com/ziglang/zig/wiki/Building-Zig-From-Source)
 vous pouvez trouver plus d'informations sur la manière de compiler Zig depuis les sources pour Linux, MacOS ou Windows.
 
 ## Outils recommandés
