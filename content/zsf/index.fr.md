@@ -11,9 +11,9 @@ La mission de la fondation Zig (*ZSF, Zig Software Foundation*) est de promouvoi
 La ZSF guide la prochaine génération de développeurs pour devenir compétent, éthique, et encourager un haut niveau d'exigence.
 
 **ZSF est une organisation 501(c)(3) sans but lucratif.**
-La trésorie, les notes des réunions et les autres détails sont [disponibles au grand public](https://drive.google.com/drive/folders/1ucHARxVbhrBbuZDbhrGHYDTsYAs8_bMH?usp=sharing).
+La trésorerie, les notes des réunions et les autres détails sont [disponibles au grand public](https://drive.google.com/drive/folders/1ucHARxVbhrBbuZDbhrGHYDTsYAs8_bMH?usp=sharing).
 
-## Membres
+## Membres principaux
 
 - [Andrew Kelley](https://andrewkelley.me/) (Président)
 - [Josh Wolfe](https://github.com/thejoshwolfe/) (Secrétaire)
@@ -31,17 +31,17 @@ Nous essayons de rémunérer les mainteneurs open source pour leur temps.
 
 La manière la plus simple de nous parrainer est de donner via [GitHub Sponsors](https://github.com/sponsors/ziglang).
 
-## Information sur les donations
+## Informations sur les donations
 Voici quelques informations utiles pour donner via d'autres moyens que le parrainage GitHub.
 Vérifiez vos lois locales pour savoir s'il est possible de déduire une partie de vos dons des impôts.
 
-|   **EIN**   | **Addresse** |
-|-------------|--------------|
+|   **EIN**   | **Adresse** |
+|-------------|-------------|
 | 84-5105214  | Zig Software Foundation  <br> 1732 1st Ave #21385  <br> New York, NY 10128|
 
 ### Autres modes de dons possibles
 - Chèques (voir l'adresse postale ci-dessus)
-- Virement bancaires (ce qui inclut les pays en dehors des USA, contactez-nous pour plus d'informations)
+- Virements bancaires (ce qui inclut les pays en dehors des USA, contactez-nous pour plus d'informations)
 - [Benevity](https://benevity.com)
 
 **N'hésitez pas à nous contacter à `donations@ziglang.org` si vous avez des questions ou des besoins particuliers.**
